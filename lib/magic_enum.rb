@@ -143,11 +143,11 @@ module MagicEnum
             end if opts[:scope_extensions] and opts[:scope_extensions].is_a?(Hash)
           end
         end
-        named_scope "of_#{name}".to_sym, lambda { |t| { :conditions => ["#{name} = ?", const_get(enum)[t]] } } do
-          opts[:scope_extensions].each do |ext_name, ext_block|
-            define_method ext_name, ext_block
-          end if opts[:scope_extensions] and opts[:scope_extensions].is_a?(Hash)
-        end
+      end
+      named_scope "of_#{name}".to_sym, lambda { |t| { :conditions => ["#{name} = ?", const_get(enum)[t]] } } do
+        opts[:scope_extensions].each do |ext_name, ext_block|
+          define_method ext_name, ext_block
+        end if opts[:scope_extensions] and opts[:scope_extensions].is_a?(Hash)
       end
 
     end
