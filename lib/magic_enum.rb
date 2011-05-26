@@ -137,14 +137,14 @@ module MagicEnum
       # Create named scopes for each enum value
       if opts[:named_scopes]
         const_get(enum).keys.each do |key|
-          named_scope key.to_s.pluralize.to_sym, :conditions => ["#{name} = ?", const_get(enum)[key]] do
+          named_scope key.to_s.pluralize.to_sym, :conditions => ["#{self.table_name}.#{name} = ?", const_get(enum)[key]] do
             opts[:scope_extensions].each do |ext_name, ext_block|
               define_method ext_name, ext_block
             end if opts[:scope_extensions] and opts[:scope_extensions].is_a?(Hash)
           end
         end
       end
-      named_scope "of_#{name}".to_sym, lambda { |t| { :conditions => ["#{name} = ?", const_get(enum)[t]] } } do
+      named_scope "of_#{name}".to_sym, lambda { |t| { :conditions => ["#{self.table_name}.#{name} = ?", const_get(enum)[t]] } } do
         opts[:scope_extensions].each do |ext_name, ext_block|
           define_method ext_name, ext_block
         end if opts[:scope_extensions] and opts[:scope_extensions].is_a?(Hash)
